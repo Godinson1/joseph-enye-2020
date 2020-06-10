@@ -13,7 +13,7 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
     console.log(query, latitude, longitude, distance);
     
     const accepted = [
-    "medical", "hospital", "clinic", "clinics", "medical offices",
+    "medical", "hospital", "clinic", "medical office", "clinics", "medical offices",
     "pharmacy", "pharmacies", "hospitals", "medicals"];
     const check = accepted.includes(query.toLowerCase());
     
