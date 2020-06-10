@@ -36,28 +36,28 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
         //Todo - Handle case in front end
         if(response.data.results.length == 0) {
             return res.status(404).json({ error: "No Result Found" });
-        } 
-
-       var bulk = Places.collection.initializeUnorderedBulkOp();
+        } else {
+            var bulk = Places.collection.initializeUnorderedBulkOp();
         
-       response.data.results.map((response: any) => {
-        const details = {
-            placeId: response.place_id,
-            name: response.name,
-            vicinity: response.vicinity,
-            geometry: response.geometry,
-            photos: response.photos,
-            rating: response.rating,
-            userRating: response.user_ratings_total,
-            icon: response.icon
-           }
-           bulk.insert(details);
-       })
-
-       bulk.execute((err: any, result: any) => {
-           if(err) console.log(err);
-           return res.status(200).json({ data: response.data.results, result });
-       })
+            response.data.results.map((response: any) => {
+             const details = {
+                 placeId: response.place_id,
+                 name: response.name,
+                 vicinity: response.vicinity,
+                 geometry: response.geometry,
+                 photos: response.photos,
+                 rating: response.rating,
+                 userRating: response.user_ratings_total,
+                 icon: response.icon
+                }
+                bulk.insert(details);
+            })
+     
+            bulk.execute((err: any, result: any) => {
+                if(err) console.log(err);
+                return res.status(200).json({ data: response.data.results, result });
+            })
+        }    
        
     } catch(err) {
         console.log(err);
