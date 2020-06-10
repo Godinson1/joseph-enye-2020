@@ -15,7 +15,8 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
     const accepted = [
     "medical", "hospital", "clinic", "clinics", "medical offices",
     "pharmacy", "pharmacies", "hospitals", "medicals"];
-    const check = accepted.includes(query);
+    const check = accepted.includes(query.toLowerCase());
+    
     if(!check) return res.status(400).json({ error: "Incorrect Keyword! Use any of the search keyword suggested" });
     
     if(query === 'pharmacy' || query === 'pharmacies') {
@@ -31,6 +32,11 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
                 "Access-Control-Allow-Origin": "*"
             }
         });
+
+        //Todo - Handle case in front end
+        if(response.data.results.length == 0) {
+            return res.status(404).json({ error: "No Result Found" });
+        } 
 
        var bulk = Places.collection.initializeUnorderedBulkOp();
         
@@ -75,7 +81,7 @@ router.get('/', async (req: any, res: any) : Promise<any> => {
     } catch(err) {
         console.log(err);
         return res.status(500).json({
-            error: "Oops! Something went wrong.."
+            message: "Oops! Something went wrong.."
         })
     }
 });
