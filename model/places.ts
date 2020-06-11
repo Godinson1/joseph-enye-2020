@@ -27,9 +27,6 @@ const placeSchema = new Schema({
     },
     rating: {
         type: Number
-    },
-    createdAt: {
-        type: String
     }}, {
         timestamps: true
     });

@@ -48,8 +48,7 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
                  photos: response.photos,
                  rating: response.rating,
                  userRating: response.user_ratings_total,
-                 icon: response.icon,
-                 createdAt: new Date().toISOString()
+                 icon: response.icon
                 }
                 bulk.insert(details);
             })
@@ -72,7 +71,7 @@ router.get('/', async (req: any, res: any) : Promise<any> => {
 
     try {
 
-        const places = await Places.find().sort({ createdAt: -1 });
+        const places = await Places.find();
         if(places.length == 0) {
             return res.status(404).json({ message: "No Result Found" });
         } else {
