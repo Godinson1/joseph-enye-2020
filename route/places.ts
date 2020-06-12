@@ -51,7 +51,8 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
                  icon: response.icon
                 }
                 bulk.insert(details);
-            })
+                bulk.find( { placeId: response.place_id } ).updateOne( { $set: {  createdAt: new Date().toISOString() } } );
+            });
      
             bulk.execute((err: any, result: any) => {
                 if(err) console.log(err);
@@ -71,7 +72,7 @@ router.get('/', async (req: any, res: any) : Promise<any> => {
 
     try {
 
-        const places = await Places.find();
+        const places = await Places.find().sort({ createdAt: -1 });
         if(places.length == 0) {
             return res.status(404).json({ message: "No Result Found" });
         } else {
