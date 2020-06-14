@@ -32,6 +32,7 @@ const PlaceType = new GraphQLObjectType({
 });
 
 
+//Queries for getting all places and user's specific search place
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -50,10 +51,10 @@ const RootQuery = new GraphQLObjectType({
            }
        }
     }
-})
+});
 
 
-
+//Export query
 module.exports = new GraphQLSchema({
     query: RootQuery
 });

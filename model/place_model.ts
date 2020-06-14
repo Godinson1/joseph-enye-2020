@@ -2,6 +2,7 @@ export {}
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//Define mongoose schema for place
 const placeSchema = new Schema({
     userId: {
         type: String
@@ -34,6 +35,8 @@ const placeSchema = new Schema({
         timestamps: true
     });
 
+    //configure model
     const PlaceModel = mongoose.model('PlaceModel', placeSchema);
 
+    //export place model
     module.exports = PlaceModel;
