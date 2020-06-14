@@ -1,5 +1,5 @@
 export {};
-const Places = require('../model/places');
+const Places = require('../model/place_model');
 const router = require('express').Router();
 const config = require("config");
 const axios = require('axios');
@@ -8,7 +8,7 @@ const axios = require('axios');
 router.post('/search', async (req: any, res: any) : Promise<any> => {
     let type: string;
    
-    const { query, latitude, longitude, distance } = req.body;
+    const { query, latitude, longitude, distance, userId } = req.body;
 
     console.log(query, latitude, longitude, distance);
     
@@ -44,14 +44,17 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
                  placeId: response.place_id,
                  name: response.name,
                  vicinity: response.vicinity,
-                 geometry: response.geometry,
-                 photos: response.photos,
+                 lat: response.geometry.location.lat,
+                 lng: response.geometry.location.lng,
                  rating: response.rating,
                  userRating: response.user_ratings_total,
                  icon: response.icon
                 }
                 bulk.insert(details);
-                bulk.find( { placeId: response.place_id } ).updateOne( { $set: {  createdAt: new Date().toISOString() } } );
+                bulk.find( { placeId: response.place_id } ).updateOne( { $set: {  
+                    createdAt: new Date().toISOString(),
+                    userId: userId 
+                } } );
             });
      
             bulk.execute((err: any, result: any) => {
@@ -68,23 +71,8 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
     }
 });
 
-router.get('/', async (req: any, res: any) : Promise<any> => {
-
-    try {
-
-        const places = await Places.find().sort({ createdAt: -1 });
-        if(places.length == 0) {
-            return res.status(404).json({ message: "No Result Found" });
-        } else {
-            return res.status(200).json({ places });
-        }
-
-    } catch(err) {
-        console.log(err);
-        return res.status(500).json({
-            message: "Oops! Something went wrong.."
-        })
-    }
-});
 
 module.exports = router;
+
+
+
