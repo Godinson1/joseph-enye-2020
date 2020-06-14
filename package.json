@@ -30,7 +30,9 @@
     "graphql-tools": "^6.0.9",
     "mongoose": "^5.9.18",
     "reflect-metadata": "^0.1.13",
-    "type-graphql": "^1.0.0-rc.2"
+    "type-graphql": "^1.0.0-rc.2",
+    "typescript": "^3.9.3",
+    "ts-node": "^8.10.2"
   },
   "devDependencies": {
     "@types/express": "github:types/express",
