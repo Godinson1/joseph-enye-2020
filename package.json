@@ -27,12 +27,13 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^15.1.0",
+    "graphql-iso-date": "^3.6.1",
     "graphql-tools": "^6.0.9",
     "mongoose": "^5.9.18",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^8.10.2",
     "type-graphql": "^1.0.0-rc.2",
-    "typescript": "^3.9.3",
-    "ts-node": "^8.10.2"
+    "typescript": "^3.9.3"
   },
   "devDependencies": {
     "@types/express": "github:types/express",

@@ -1,13 +1,19 @@
 export {}
 const PlacesModel = require('./place_model');
 const graphl = require('graphql');
+const graphqlIsoDate = require('graphql-iso-date');
 
+//Destructure types from graphl
 const {
     GraphQLID, GraphQLInt, GraphQLString,
     GraphQLObjectType, GraphQLSchema, GraphQLList
 } = graphl;
 
 
+//Destructure date-time type from graphql-iso-date
+const { GraphQLDateTime } = graphqlIsoDate;
+
+//Define place types
 const PlaceType = new GraphQLObjectType({
     name: "Place",
     fields: {
@@ -21,7 +27,7 @@ const PlaceType = new GraphQLObjectType({
         rating: { type: GraphQLString },
         userRating: { type: GraphQLInt },
         icon: { type: GraphQLString },
-        createdAt: { type: GraphQLString }
+        createdAt: { type: GraphQLDateTime }
     }
 });
 
