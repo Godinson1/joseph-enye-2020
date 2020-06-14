@@ -40,7 +40,7 @@ const RootQuery = new GraphQLObjectType({
            type: new GraphQLList(PlaceType),
            resolve(parent: any, args: any){
                //Retrieve data from database
-              return PlacesModel.find().exec();  
+              return PlacesModel.find().sort({ createdAt: -1 }).exec();  
            }
        },
        place: {
