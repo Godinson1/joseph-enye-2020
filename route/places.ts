@@ -36,6 +36,7 @@ router.post('/search', async (req: any, res: any) : Promise<any> => {
         type = 'hospital'
     }
 
+    
     //Handle request and trigger api
     try {
         const URL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${distance}&type=${type}&keyword=${query}&key=${config.get("API_KEY")}`;
