@@ -19,6 +19,7 @@
     "@types/assert": "^1.4.7",
     "apollo-server": "^2.14.4",
     "apollo-server-express": "^2.14.4",
+    "@types/mongoose": "^5.10.3",
     "assert": "^2.0.0",
     "axios": "^0.19.2",
     "class-validator": "^0.12.2",

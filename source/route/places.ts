@@ -5,6 +5,7 @@ const config = require("config");
 const axios = require("axios");
 import { Auth } from "../middleware/auth";
 import { Request, Response } from "express";
+import { ENDPOINT } from "../utility";
 
 //Route for handling search requests
 router.post(
@@ -52,7 +53,7 @@ router.post(
 
     //Handle request and trigger api
     try {
-      const URL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${distance}&type=${type}&keyword=${query}&key=${config.get(
+      const URL = `${ENDPOINT}/json?location=${latitude},${longitude}&radius=${distance}&type=${type}&keyword=${query}&key=${config.get(
         "API_KEY"
       )}`;
       const response: any = await axios.get(URL, {
