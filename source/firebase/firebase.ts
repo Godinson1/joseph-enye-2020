@@ -5,8 +5,6 @@ dotenv.config();
 // get firebase service account file
 import firebaseAccountCredentials from "./FBSA.json";
 
-console.log("check", process.env.API_KEY);
-
 const FirebaseServiceAccount = firebaseAccountCredentials as admin.ServiceAccount;
 const config = {
   apiKey: process.env.API_KEY,

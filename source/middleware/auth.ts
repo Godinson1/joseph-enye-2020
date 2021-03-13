@@ -24,6 +24,7 @@ const Auth = async (req: Request, res: Response, next: NextFunction) => {
         req.user.lastName = data.lastName;
         return next();
       } else {
+        console.log("NO USER FOUND");
         handleResponse(
           res,
           errors,
@@ -32,6 +33,7 @@ const Auth = async (req: Request, res: Response, next: NextFunction) => {
         );
       }
     } catch (error) {
+      console.log("AUG-ERROR");
       if (error.code === "auth/argument-error") {
         handleResponse(
           res,
@@ -50,6 +52,7 @@ const Auth = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
   } else {
+    console.log("FORMAT WRONG");
     handleResponse(
       res,
       errors,

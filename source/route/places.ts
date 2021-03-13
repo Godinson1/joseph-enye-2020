@@ -5,7 +5,8 @@ const config = require("config");
 const axios = require("axios");
 import { Auth } from "../middleware/auth";
 import { Request, Response } from "express";
-import { ENDPOINT } from "../utility";
+import { ENDPOINT, LNG, LAT } from "../utility";
+import { handleResponse } from "../error";
 
 //Route for handling search requests
 router.post(
@@ -16,6 +17,7 @@ router.post(
 
     //Destructure data from request body
     const { query, latitude, longitude, distance } = req.body;
+    console.log("hello", query, latitude, longitude, distance);
 
     //Define accepted keywords to search based on challenge requirements
     const accepted = [
@@ -49,8 +51,6 @@ router.post(
       type = "hospital";
     }
 
-    console.log(req.user.firstName);
-
     //Handle request and trigger api
     try {
       const URL = `${ENDPOINT}/json?location=${latitude},${longitude}&radius=${distance}&type=${type}&keyword=${query}&key=${config.get(
@@ -61,8 +61,6 @@ router.post(
           "Access-Control-Allow-Origin": "*",
         },
       });
-
-      console.log(response);
 
       //Check if returned result is an empty array, them return NOT FOUND - Error
       //Otherwise Insert result of places into database
@@ -109,6 +107,37 @@ router.post(
       return res.status(500).json({
         error: "Oops! Something went wrong..",
       });
+    }
+  }
+);
+
+router.post(
+  "/",
+  Auth,
+  async (req: Request, res: Response): Promise<Response> => {
+    const pagination = req.body.pagination ? parseInt(req.body.pagination) : 10;
+    //PageNumber From which Page to Start
+    const pageNumber = req.body.page ? parseInt(req.body.page) : 1;
+    try {
+      const data = await Places.find({ userId: req.user.userId });
+      const data_result = await Places.find({ userId: req.user.userId })
+        .sort({ createdAt: -1 })
+        .skip((pageNumber - 1) * pagination)
+        .limit(pagination);
+      const data_length = data.length;
+      const num = data_length / pagination;
+      const total_page = Number.isInteger(num) === true ? num : Math.ceil(num);
+
+      return res.status(200).send({
+        status: "success",
+        message: "Data retrieved successfully.",
+        total_result: data_length,
+        total_page,
+        data: data_result,
+      });
+    } catch (err) {
+      console.log(err);
+      return handleResponse(res, "error", 500, "Something went wrong");
     }
   }
 );
